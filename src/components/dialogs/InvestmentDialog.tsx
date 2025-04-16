@@ -1,4 +1,6 @@
 
+import { useState } from "react";
+import { MessageCircle, Send } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -7,8 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { MessageCircle } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 export default function InvestmentDialog({ 
   open, 
@@ -23,10 +24,32 @@ export default function InvestmentDialog({
     savings: "",
     expenses: "",
   });
+  const [messages, setMessages] = useState<{type: 'user' | 'bot', content: string}[]>([
+    {type: 'bot', content: "Welcome to FinanceAI! I'm here to help you make smarter investment decisions. Based on your financial information, I'll provide personalized guidance to help you grow your wealth. What would you like to know about first?"}
+  ]);
+  const [userInput, setUserInput] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setShowChat(true);
+  };
+
+  const handleSendMessage = () => {
+    if (!userInput.trim()) return;
+    
+    // Add user message
+    setMessages(prev => [...prev, {type: 'user', content: userInput}]);
+    
+    // Simulate bot response
+    setTimeout(() => {
+      setMessages(prev => [...prev, {
+        type: 'bot', 
+        content: "That's a great question! Based on your financial profile, I would recommend considering a mix of low-risk and moderate-risk investments to start with."
+      }]);
+    }, 800);
+    
+    // Clear input
+    setUserInput("");
   };
 
   return (
@@ -74,18 +97,41 @@ export default function InvestmentDialog({
             <Button type="submit" className="w-full">Submit</Button>
           </form>
         ) : (
-          <div className="space-y-4">
-            <div className="bg-blue-50 p-4 rounded-lg">
-              <div className="flex items-start gap-3">
-                <MessageCircle className="w-6 h-6 text-blue-600" />
-                <div>
-                  <p className="font-medium text-blue-900">Welcome to FinanceAI!</p>
-                  <p className="text-sm text-blue-700">
-                    I'm here to help you make smarter investment decisions. Based on your financial information,
-                    I'll provide personalized guidance to help you grow your wealth. What would you like to know about first?
-                  </p>
+          <div className="space-y-4 h-[300px] flex flex-col">
+            <div className="flex-1 overflow-y-auto space-y-3 bg-gray-50 p-3 rounded-lg">
+              {messages.map((message, index) => (
+                <div 
+                  key={index} 
+                  className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div 
+                    className={`max-w-[85%] p-3 text-sm rounded-lg ${
+                      message.type === 'user' 
+                        ? 'bg-blue-600 text-white rounded-tr-none' 
+                        : 'bg-gray-200 text-gray-800 rounded-tl-none'
+                    }`}
+                  >
+                    {message.content}
+                  </div>
                 </div>
-              </div>
+              ))}
+            </div>
+            
+            <div className="flex gap-2 mt-auto">
+              <Input
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                placeholder="Ask a question..."
+                className="flex-1"
+                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+              />
+              <Button 
+                onClick={handleSendMessage} 
+                size="icon" 
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                <Send className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         )}

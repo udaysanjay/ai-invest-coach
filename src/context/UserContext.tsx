@@ -21,7 +21,7 @@ interface UserData {
 }
 
 const sampleUserData: UserData = {
-  name: "Alex Thompson",
+  name: "YUVA",
   income: 45000,
   savings: 12000,
   investments: [
