@@ -22,10 +22,10 @@ export default function Navbar() {
           <Button variant="ghost" size="icon" className="hover:bg-gray-100" onClick={() => navigate("/education")}>
             <BookOpen className="h-5 w-5 text-gray-600" />
           </Button>
-          <Button variant="ghost" size="icon" className="hover:bg-gray-100">
+          <Button variant="ghost" size="icon" className="hover:bg-gray-100" onClick={() => navigate("/investments")}>
             <BarChart3 className="h-5 w-5 text-gray-600" />
           </Button>
-          <Button variant="ghost" size="icon" className="hover:bg-gray-100">
+          <Button variant="ghost" size="icon" className="hover:bg-gray-100" onClick={() => navigate("/chatbot")}>
             <MessageCircle className="h-5 w-5 text-gray-600" />
           </Button>
         </div>
