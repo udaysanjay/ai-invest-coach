@@ -1,8 +1,11 @@
-
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import { ArrowRight, TrendingUp, BarChart2, MessageCircle } from "lucide-react";
+import InvestmentDialog from "../dialogs/InvestmentDialog";
 
 export default function HeroSection() {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
       {/* Hero Section */}
@@ -13,7 +16,7 @@ export default function HeroSection() {
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
           Make smarter financial decisions and grow your wealth with personalized investment guidance powered by artificial intelligence.
         </p>
-        <Button size="lg" className="gap-2">
+        <Button size="lg" className="gap-2" onClick={() => setDialogOpen(true)}>
           Start Investing <ArrowRight />
         </Button>
       </div>
@@ -55,6 +58,8 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
+
+      <InvestmentDialog open={dialogOpen} onOpenChange={setDialogOpen} />
     </div>
   );
 }
