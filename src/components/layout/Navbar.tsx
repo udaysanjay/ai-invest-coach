@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { MessageCircle, BookOpen, BarChart3, UserRound } from "lucide-react";
+import { MessageCircle, BookOpen, BarChart3, UserRound, Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
@@ -16,6 +16,9 @@ export default function Navbar() {
         </div>
         
         <div className="flex items-center gap-2">
+          <Button variant="ghost" size="icon" className="hover:bg-gray-100" onClick={() => navigate("/")}>
+            <Home className="h-5 w-5 text-gray-600" />
+          </Button>
           <Button variant="ghost" size="icon" className="hover:bg-gray-100" onClick={() => navigate("/profile")}>
             <UserRound className="h-5 w-5 text-gray-600" />
           </Button>
