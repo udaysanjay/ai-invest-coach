@@ -21,10 +21,7 @@ export default function InvestmentDialog({
   const [messages, setMessages] = useState<{
     type: 'user' | 'bot';
     content: string;
-  }[]>([{
-    type: 'bot',
-    content: "Welcome to FinanceAI! I'm here to help you make smarter investment decisions. Based on your financial information, I'll provide personalized guidance to help you grow your wealth. What would you like to know about first?"
-  }]);
+  }[]>([]);
   const [userInput, setUserInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -33,11 +30,16 @@ export default function InvestmentDialog({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setShowChat(true);
+    // Automatically trigger first analysis
+    setTimeout(() => {
+      handleSendMessage('analyse');
+    }, 100);
   };
-  const handleSendMessage = async () => {
-    if (!userInput.trim() || isLoading) return;
-    const currentMessage = userInput;
-    setUserInput("");
+  const handleSendMessage = async (customMessage?: string) => {
+    const currentMessage = customMessage || userInput;
+    if (!currentMessage.trim() || isLoading) return;
+    
+    if (!customMessage) setUserInput("");
     setIsLoading(true);
 
     // Add user message
@@ -134,7 +136,7 @@ export default function InvestmentDialog({
             
             <div className="flex gap-2 mt-auto">
               <Input value={userInput} onChange={e => setUserInput(e.target.value)} placeholder="Ask a question..." className="flex-1" disabled={isLoading} onKeyDown={e => e.key === 'Enter' && !isLoading && handleSendMessage()} />
-              <Button onClick={handleSendMessage} size="icon" className="bg-blue-600 hover:bg-blue-700" disabled={isLoading}>
+              <Button onClick={() => handleSendMessage()} size="icon" className="bg-blue-600 hover:bg-blue-700" disabled={isLoading}>
                 {isLoading ? <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" /> : <Send className="h-4 w-4" />}
               </Button>
             </div>

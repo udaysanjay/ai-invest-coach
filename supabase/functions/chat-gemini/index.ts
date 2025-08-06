@@ -34,10 +34,12 @@ serve(async (req) => {
         `First, display the user's financial data clearly, then provide a concise analysis.
 
         IMPORTANT: For the first analysis, follow this exact format:
-        1. Show "📊 Your Financial Summary:" followed by the user's data
-        2. Then say "By analyzing your financial status, I recommend:" 
-        3. Provide a brief analysis (40-80 words only)
-        4. End with follow-up questions
+        1. Show "📊 **Your Financial Summary:**" 
+        2. Display the user's data in bullet points
+        3. Then say "**By analyzing your financial status, I recommend:**"
+        4. Provide 2-3 key bullet point recommendations (40-60 words total)
+        5. Add a brief overview paragraph (20-30 words)
+        6. End with 2-3 follow-up questions
 
         User's Financial Data:
         - Monthly Earning: ₹${financialData.monthlyEarning}
