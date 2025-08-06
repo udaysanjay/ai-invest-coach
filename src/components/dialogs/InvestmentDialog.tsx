@@ -93,25 +93,34 @@ export default function InvestmentDialog({
 
         {!showChat ? <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="text-sm font-medium">Monthly Earning </label>
-              <input type="number" className="w-full mt-1 p-2 border rounded-md" value={formData.monthlyEarning} onChange={e => setFormData({
-            ...formData,
-            monthlyEarning: e.target.value
-          })} required />
+              <label className="text-sm font-medium">Monthly Earning (₹)</label>
+              <div className="relative">
+                <input type="number" className="w-full mt-1 p-2 pr-8 border rounded-md" value={formData.monthlyEarning} onChange={e => setFormData({
+              ...formData,
+              monthlyEarning: e.target.value
+            })} required />
+                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₹</span>
+              </div>
             </div>
             <div>
-              <label className="text-sm font-medium">Monthly Savings</label>
-              <input type="number" className="w-full mt-1 p-2 border rounded-md" value={formData.savings} onChange={e => setFormData({
-            ...formData,
-            savings: e.target.value
-          })} required />
+              <label className="text-sm font-medium">Monthly Savings (₹)</label>
+              <div className="relative">
+                <input type="number" className="w-full mt-1 p-2 pr-8 border rounded-md" value={formData.savings} onChange={e => setFormData({
+              ...formData,
+              savings: e.target.value
+            })} required />
+                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₹</span>
+              </div>
             </div>
             <div>
-              <label className="text-sm font-medium">Monthly Expenses</label>
-              <input type="number" className="w-full mt-1 p-2 border rounded-md" value={formData.expenses} onChange={e => setFormData({
-            ...formData,
-            expenses: e.target.value
-          })} required />
+              <label className="text-sm font-medium">Monthly Expenses (₹)</label>
+              <div className="relative">
+                <input type="number" className="w-full mt-1 p-2 pr-8 border rounded-md" value={formData.expenses} onChange={e => setFormData({
+              ...formData,
+              expenses: e.target.value
+            })} required />
+                <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₹</span>
+              </div>
             </div>
             <Button type="submit" className="w-full">Submit</Button>
           </form> : <div className="space-y-4 h-[420px] flex flex-col">
