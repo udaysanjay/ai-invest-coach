@@ -21,35 +21,46 @@ serve(async (req) => {
       throw new Error('Gemini API key not configured')
     }
 
-    // Create context from financial data
-    const context = financialData ? 
-      `User's Financial Profile:
-      - Monthly Earning: ₹${financialData.monthlyEarning}
-      - Monthly Savings: ₹${financialData.savings}
-      - Monthly Expenses: ₹${financialData.expenses}
-      - Net Surplus: ₹${financialData.monthlyEarning - financialData.expenses}
-      - Savings Rate: ${((financialData.savings / financialData.monthlyEarning) * 100).toFixed(1)}%
-      
-      Based on this financial profile, analyze and recommend:
-      1. Appropriate investment types (SIP, PPF, ELSS, Index Funds, Bonds, etc.)
-      2. Risk tolerance assessment based on income and savings
-      3. Asset allocation strategy suitable for Indian markets
-      4. Monthly investment amounts for each category
-      5. Emergency fund requirements
-      6. Tax-saving investment options under Section 80C
-      
-      Provide specific, actionable investment recommendations with amounts in Indian Rupees (₹).` 
-      : 'Provide general financial and investment advice for Indian markets.'
-
     // Get the last user message
     const lastMessage = messages[messages.length - 1]
     const userMessage = lastMessage?.type === 'user' ? lastMessage.content : ''
+
+    // Check if this is the first analysis request
+    const isFirstAnalysis = userMessage.toLowerCase().includes('analyse') || userMessage.toLowerCase().includes('analyze')
+
+    // Create context from financial data
+    const context = financialData ? 
+      `You are a financial advisor for Indian markets. ${isFirstAnalysis ? 
+        `First, display the user's financial data clearly, then provide a concise analysis.
+
+        IMPORTANT: For the first analysis, follow this exact format:
+        1. Show "📊 Your Financial Summary:" followed by the user's data
+        2. Then say "By analyzing your financial status, I recommend:" 
+        3. Provide a brief analysis (40-80 words only)
+        4. End with follow-up questions
+
+        User's Financial Data:
+        - Monthly Earning: ₹${financialData.monthlyEarning}
+        - Monthly Savings: ₹${financialData.savings}  
+        - Monthly Expenses: ₹${financialData.expenses}
+        - Net Surplus: ₹${financialData.monthlyEarning - financialData.expenses}
+        - Savings Rate: ${((financialData.savings / financialData.monthlyEarning) * 100).toFixed(1)}%` :
+        
+        `User's Financial Profile:
+        - Monthly Earning: ₹${financialData.monthlyEarning}
+        - Monthly Savings: ₹${financialData.savings}
+        - Monthly Expenses: ₹${financialData.expenses}
+        
+        Provide helpful financial advice based on this profile.`}` 
+      : 'Provide general financial and investment advice for Indian markets.'
 
     const prompt = `${context}
     
     User Question: ${userMessage}
     
-    Please provide helpful, personalized financial advice. Keep responses concise but informative. Focus on practical investment strategies, risk management, and wealth building suitable for Indian markets.`
+    ${isFirstAnalysis ? 
+      'Remember: Show financial data first, then brief analysis (40-80 words), then ask follow-up questions.' :
+      'Provide helpful, concise financial advice for Indian markets.'}`
 
     // Call Gemini API
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`, {
