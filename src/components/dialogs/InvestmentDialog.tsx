@@ -84,7 +84,7 @@ export default function InvestmentDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-2xl max-w-lg">
         <DialogHeader>
           <DialogTitle>Get Started with FinanceAI</DialogTitle>
           <DialogDescription>
@@ -127,7 +127,7 @@ export default function InvestmentDialog({
             <Button type="submit" className="w-full">Submit</Button>
           </form>
         ) : (
-          <div className="space-y-4 h-[300px] flex flex-col">
+          <div className="space-y-4 h-[420px] flex flex-col">
             <div className="flex-1 overflow-y-auto space-y-3 bg-gray-50 p-3 rounded-lg">
               {messages.map((message, index) => (
                 <div 
